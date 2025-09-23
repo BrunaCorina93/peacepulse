@@ -1,98 +1,116 @@
 import React, { useState } from 'react';
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword 
-} from 'firebase/auth';
 import { auth } from '../services/firebase';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import './Login.css';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [isLogin, setIsLogin] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e) => {
+  // 🔥 AGORA A handleSubmit ESTÁ AQUI! 🔥
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError('');
+    setLoading(true);
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      console.log('Usuário logado com sucesso!');
-    } catch (error) {
-      setError('Erro ao fazer login: ' + error.message);
-    } finally {
-      setIsLoading(false);
+    // Validação básica do email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert('Por favor, insira um email válido (ex: usuario@exemplo.com)');
+      setLoading(false);
+      return;
     }
-  };
 
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
+    if (password.length < 6) {
+      alert('A senha deve ter pelo menos 6 caracteres');
+      setLoading(false);
+      return;
+    }
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      console.log('Conta criada com sucesso!');
+      if (isLogin) {
+        // Login
+        await signInWithEmailAndPassword(auth, email, password);
+        console.log('✅ Login realizado com sucesso');
+      } else {
+        // Cadastro
+        await createUserWithEmailAndPassword(auth, email, password);
+        console.log('✅ Conta criada com sucesso');
+      }
+      onLogin();
     } catch (error) {
-      setError('Erro ao criar conta: ' + error.message);
+      console.error('❌ Erro do Firebase:', error);
+      
+      // Mensagens de erro mais amigáveis
+      let errorMessage = 'Erro desconhecido. Tente novamente.';
+      
+      switch (error.code) {
+        case 'auth/invalid-email':
+          errorMessage = 'Email inválido. Verifique o formato.';
+          break;
+        case 'auth/weak-password':
+          errorMessage = 'Senha muito fraca. Use pelo menos 6 caracteres.';
+          break;
+        case 'auth/email-already-in-use':
+          errorMessage = 'Este email já está em uso.';
+          break;
+        case 'auth/user-not-found':
+          errorMessage = 'Usuário não encontrado.';
+          break;
+        case 'auth/wrong-password':
+          errorMessage = 'Senha incorreta.';
+          break;
+        case 'auth/network-request-failed':
+          errorMessage = 'Erro de conexão. Verifique sua internet.';
+          break;
+        default:
+          errorMessage = error.message;
+      }
+      
+      alert(`Erro: ${errorMessage}`);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-container">
-      <form className="login-form">
-        <h2>Peace Pulse</h2>
+      <div className="login-card">
+        <h2>🌊 PeacePulse</h2>
+        <p>Seu diário digital de gratidão</p>
         
-        {error && <div className="error-message">{error}</div>}
-        
-        <div className="input-group">
-          <label htmlFor="email">Email:</label>
+        <form onSubmit={handleSubmit} className="login-form">
           <input
             type="email"
-            id="email"
+            placeholder="Seu e-mail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="seu@email.com"
             required
           />
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="password">Senha:</label>
           <input
             type="password"
-            id="password"
+            placeholder="Sua senha"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Sua senha"
             required
           />
-        </div>
-
-        <div className="button-group">
-          <button 
-            type="button" 
-            onClick={handleLogin} 
-            disabled={isLoading}
-            className="login-btn"
-          >
-            {isLoading ? 'Carregando...' : 'Entrar'}
-          </button>
           
-          <button 
-            type="button" 
-            onClick={handleSignUp} 
-            disabled={isLoading}
-            className="signup-btn"
-          >
-            {isLoading ? 'Carregando...' : 'Criar Conta'}
+          <button type="submit" disabled={loading}>
+            {loading ? 'Carregando...' : (isLogin ? 'Entrar' : 'Cadastrar')}
           </button>
-        </div>
-      </form>
+        </form>
+
+        <p className="toggle-text">
+          {isLogin ? 'Não tem uma conta? ' : 'Já tem uma conta? '}
+          <span 
+            className="toggle-link" 
+            onClick={() => setIsLogin(!isLogin)}
+          >
+            {isLogin ? 'Cadastre-se' : 'Faça login'}
+          </span>
+        </p>
+      </div>
     </div>
   );
 };

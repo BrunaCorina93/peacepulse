@@ -1,32 +1,31 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 
-// SUAS CREDENCIAIS DO FIREBASE - VOCÊ VAI PRECISAR CONFIGURAR!
 const firebaseConfig = {
-
-  apiKey: "AIzaSyB9oXopW6K8F-ZA8PEbNHu1jtAySSEkR4I",
-
-  authDomain: "peacepulse-edf39.firebaseapp.com",
-
-  projectId: "peacepulse-edf39",
-
-  storageBucket: "peacepulse-edf39.firebasestorage.app",
-
-  messagingSenderId: "647075014961",
-
-  appId: "1:647075014961:web:6512dd456bd9ce96e1a810",
-
-  measurementId: "G-391LBVV1YS"
-
+  // Sua configuração do Firebase
+  apiKey: "sua-chave-aqui",
+  authDomain: "peacepulse-final.firebaseapp.com",
+  projectId: "peacepulse-final",
+  storageBucket: "peacepulse-final.appspot.com",
+  messagingSenderId: "seu-id-aqui",
+  appId: "seu-app-id-aqui"
 };
-
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase Authentication
-const auth = getAuth(app);
+// Initialize services
+export const auth = getAuth(app);
+export const db = getFirestore(app);
 
-// Exportações
-export { auth };
-export default app;
+// Conexão com emuladores - CORRIGIDO
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+  // Usar URL completa para auth
+  connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
+  
+  // Conectar Firestore
+  connectFirestoreEmulator(db, 'localhost', 8080);
+  
+  console.log('✅ Conectado aos emuladores do Firebase');
+}

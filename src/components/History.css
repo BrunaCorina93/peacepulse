@@ -1,0 +1,68 @@
+.history-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.history-container h2 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #7f8c8d;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+.entries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.entry-card {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  border-left: 4px solid #3498db;
+}
+
+.entry-date {
+  font-size: 12px;
+  color: #7f8c8d;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.entry-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gratitude-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.item-number {
+  font-weight: bold;
+  color: #3498db;
+  min-width: 20px;
+}
+
+.item-text {
+  color: #2c3e50;
+  line-height: 1.4;
+}
