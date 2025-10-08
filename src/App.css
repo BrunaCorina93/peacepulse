@@ -1,0 +1,157 @@
+/* src/App.css */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+/* Loading */
+.app-loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.2em;
+  color: #2c5530;
+}
+
+.loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #2c5530;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Header */
+.app-header {
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.logo-section h1 {
+  color: #2c5530;
+  margin: 0;
+  font-size: 1.8em;
+}
+
+.user-email {
+  color: #666;
+  font-size: 0.9em;
+}
+
+/* Navegação - ESPAÇAMENTOS CORRIGIDOS */
+.navigation {
+  display: flex;
+  gap: 15px; /* Aumentei de 10px para 15px */
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.nav-button {
+  padding: 10px 20px;
+  border: 2px solid #e7baba;
+  background: rgb(121, 235, 138);
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1em;
+}
+
+.nav-button:hover {
+  border-color: #2c5530;
+  transform: translateY(-2px);
+}
+
+.nav-button.active {
+  background: #2c5530;
+  color: white;
+  border-color: #2c5530;
+}
+
+/* Botão Sair - ESPAÇAMENTO CORRIGIDO */
+.logout-button {
+  padding: 8px 16px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 10px; /* Adicionei margem para separar do último botão */
+}
+
+.logout-button:hover {
+  background: #da190b;
+  transform: translateY(-2px);
+}
+
+/* ESPAÇAMENTO ESPECÍFICO PARA SEPARAR DIÁRIO DO LOGO */
+/* Adicione esta classe ao primeiro botão (Diário) no seu JSX */
+.first-nav-button {
+  margin-left: 20px; /* Separa do logo */
+}
+
+/* Conteúdo Principal */
+.app-main {
+  flex: 1;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Footer */
+.app-footer {
+  background: #2c5530;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-top: auto;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .navigation {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 10px; /* Menor gap em mobile */
+  }
+  
+  .nav-button {
+    flex: 1;
+    text-align: center;
+    padding: 8px 12px;
+    font-size: 0.9em;
+  }
+
+  .logout-button {
+    margin-left: 0; /* Remove margem em mobile */
+    margin-top: 10px; /* Adiciona espaço acima em mobile */
+  }
+}

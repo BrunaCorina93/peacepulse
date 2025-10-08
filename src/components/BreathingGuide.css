@@ -1,0 +1,189 @@
+/* src/components/BreathingGuide.css */
+.breathing-guide {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.breathing-header {
+  margin-bottom: 30px;
+}
+
+.breathing-header h2 {
+  color: #2c5530;
+  margin-bottom: 10px;
+}
+
+.breathing-header p {
+  color: #666;
+  font-size: 1.1em;
+}
+
+/* Container do círculo */
+.circle-container {
+  margin: 40px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+/* Círculo de respiração */
+.breathing-circle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #87CEEB, #4682B4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito de pulsação sutil */
+.breathing-circle::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: inherit;
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.1); opacity: 0.1; }
+}
+
+/* Estados do círculo */
+.breathing-circle.ready {
+  transform: scale(1);
+  background: linear-gradient(135deg, #E0E0E0, #B0B0B0);
+}
+
+.breathing-circle.inhale {
+  transform: scale(1.2);
+  background: linear-gradient(135deg, #87CEEB, #4682B4);
+}
+
+.breathing-circle.hold {
+  transform: scale(1.2);
+  background: linear-gradient(135deg, #90EE90, #32CD32);
+}
+
+.breathing-circle.exhale {
+  transform: scale(0.8);
+  background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+}
+
+.timer {
+  font-size: 3em;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Instruções */
+.instructions {
+  margin: 30px 0;
+}
+
+.phase-instruction {
+  font-size: 2em;
+  font-weight: bold;
+  color: #2c5530;
+  margin-bottom: 10px;
+}
+
+.phase-description {
+  font-size: 1.2em;
+  color: #666;
+}
+
+/* Controles */
+.controls {
+  margin: 30px 0;
+}
+
+.start-button, .stop-button {
+  padding: 15px 30px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.start-button {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+}
+
+.stop-button {
+  background: linear-gradient(135deg, #f44336, #da190b);
+  color: white;
+}
+
+.start-button:hover, .stop-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Estatísticas */
+.stats {
+  margin-top: 20px;
+}
+
+.phase-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.phase-dot {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: #f0f0f0;
+  transition: all 0.3s ease;
+  font-size: 0.9em;
+}
+
+.phase-dot.active {
+  background: #4CAF50;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .breathing-guide {
+    padding: 10px;
+  }
+  
+  .circle-container {
+    height: 250px;
+  }
+  
+  .breathing-circle {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .phase-instruction {
+    font-size: 1.5em;
+  }
+  
+  .phase-indicators {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
